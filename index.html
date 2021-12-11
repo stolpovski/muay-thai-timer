@@ -22,17 +22,19 @@
         #root {
             margin: 2em auto;
             /*background-color: red;*/
+            max-width: 300px;
             width: 70vw;
             background-image: url('logo.jpg');
             background-repeat: no-repeat;
             background-size: contain;
             background-position: top center;
-            padding-top: 10em;
+            padding-top: 11.5em;
         }
 
         #state {
             color: white;
-            font-size: 16pt;
+            font-size: 14pt;
+            text-transform: uppercase;
         }
 
         #countdown {
@@ -55,7 +57,7 @@
 
 
         const data = [
-            { src: 'bell.mp3', title: 'Get Ready!' },
+            { src: 'bell.mp3', title: 'Get ready!' },
             { src: '1.mp3', title: 'Round 1' },
             { src: '2.mp3', title: 'Round 2' },
             { src: '3.mp3', title: 'Round 3' },
@@ -95,10 +97,12 @@
                 a.onplay = (e) => {
                     cur = e.target
                     state.innerText = cur.title
+                    countdown.innerText = makeClock(Math.trunc(cur.duration))
                     console.log(cur)
                 }
 
                 a.ontimeupdate = (e) => {
+                    
                     countdown.innerText = makeClock(Math.trunc(e.target.duration - e.target.currentTime))
                 }
 
@@ -123,6 +127,7 @@
         document.addEventListener('DOMContentLoaded', (e) => {
             const state = document.getElementById('state')
             const countdown = document.getElementById('countdown')
+            countdown.innerText = makeClock(0)
             const btn = document.getElementById('btn')
 
             state.innerText = document.title
