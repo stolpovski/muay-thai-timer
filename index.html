@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/mtt/favicon.ico" type="image/x-icon">
+    <title>Muay Thai Timer</title>
+    <style>
+        body {
+            /*margin-top: 10em;*/
+            text-align: center;
+            background-color: black;
+
+        }
+
+        button {
+            font-size: 20pt;
+        }
+
+        #root {
+            margin: 2em auto;
+            /*background-color: red;*/
+            width: 70vw;
+            background-image: url('logo.jpg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: top center;
+            padding-top: 10em;
+        }
+
+        #state {
+            color: white;
+            font-size: 16pt;
+        }
+
+        #countdown {
+            /*background: red;*/
+            padding-bottom: .2em;
+            font-size: 40pt;
+            color: white;
+            /*font-weight: bold;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <div id="state"></div>
+        <div id="countdown"></div>
+        <button id="btn">Fight!</button>
+    </div>
+    <script>
+
+
+        const data = [
+            { src: 'bell.mp3', title: 'Get Ready!' },
+            { src: '1.mp3', title: 'Round 1' },
+            { src: '2.mp3', title: 'Round 2' },
+            { src: '3.mp3', title: 'Round 3' },
+            { src: '4.mp3', title: 'Round 4' },
+            { src: '5.mp3', title: 'Round 5' },
+        ]
+
+        const audio = []
+        let cur
+
+        function makeClock(seconds) {
+            let min = seconds / 60
+            let sec = seconds % 60
+
+            return parseInt(min) + ':' + (sec < 10 ? '0' : '') + sec
+        }
+
+        function init() {
+            data.forEach((f, i) => {
+                let a = new Audio(f.src)
+                a.title = f.title
+                // a.load()
+
+                audio.push(a)
+            })
+
+
+
+
+            audio[0].onloadedmetadata = (e) => {
+                countdown.innerText = makeClock(Math.trunc(audio[0].duration))
+            }
+
+
+
+            audio.forEach((a, i) => {
+                a.onplay = (e) => {
+                    cur = e.target
+                    state.innerText = cur.title
+                    console.log(cur)
+                }
+
+                a.ontimeupdate = (e) => {
+                    countdown.innerText = makeClock(Math.trunc(e.target.duration - e.target.currentTime))
+                }
+
+                a.onended = (e) => {
+                    if (i < audio.length - 1) {
+                        audio[i + 1].load()
+                        audio[i + 1].play()
+                    } else {
+                        e.target.title = 'Final'
+                        state.innerText = e.target.title
+                    }
+
+                }
+            })
+
+        }
+
+
+        let reset = false
+
+
+        document.addEventListener('DOMContentLoaded', (e) => {
+            const state = document.getElementById('state')
+            const countdown = document.getElementById('countdown')
+            const btn = document.getElementById('btn')
+
+            state.innerText = document.title
+
+
+            init()
+
+
+
+
+
+            btn.onclick = () => {
+
+                if (reset) {
+                    reset = !reset
+                    // console.log(cur)
+                    cur.pause()
+                    countdown.innerText = makeClock(Math.trunc(audio[0].duration))
+                    btn.innerText = 'Fight!'
+
+
+                    return
+                }
+
+                reset = !reset
+
+                btn.innerText = 'Reset'
+
+                audio[0].load()
+                audio[0].play()
+
+            }
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
