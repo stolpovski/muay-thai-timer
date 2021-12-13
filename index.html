@@ -69,6 +69,7 @@
         let cur
 
         function makeClock(seconds) {
+            seconds = Math.trunc(seconds)
             let min = seconds / 60
             let sec = seconds % 60
 
@@ -78,8 +79,15 @@
         function init() {
             data.forEach((f, i) => {
                 let a = new Audio(f.src)
+                a.load()
                 a.title = f.title
-                // a.load()
+
+                a.onloadeddata = (e) => {
+                    e.target.dur = e.target.duration
+                    if (i === 0) {
+                        countdown.innerText = makeClock(e.target.dur)
+                    }
+                }
 
                 audio.push(a)
             })
@@ -87,28 +95,25 @@
 
 
 
-            audio[0].onloadedmetadata = (e) => {
-                countdown.innerText = makeClock(Math.trunc(audio[0].duration))
-            }
+           
 
 
 
             audio.forEach((a, i) => {
+                
                 a.onplay = (e) => {
                     cur = e.target
                     state.innerText = cur.title
-                    countdown.innerText = makeClock(Math.trunc(cur.duration))
-                    console.log(cur)
+                    countdown.innerText = makeClock(cur.dur)
                 }
 
                 a.ontimeupdate = (e) => {
                     
-                    countdown.innerText = makeClock(Math.trunc(e.target.duration - e.target.currentTime))
+                    countdown.innerText = makeClock(e.target.dur - e.target.currentTime)
                 }
 
                 a.onended = (e) => {
                     if (i < audio.length - 1) {
-                        audio[i + 1].load()
                         audio[i + 1].play()
                     } else {
                         e.target.title = 'Final'
@@ -143,7 +148,6 @@
 
                 if (reset) {
                     reset = !reset
-                    // console.log(cur)
                     cur.pause()
                     countdown.innerText = makeClock(Math.trunc(audio[0].duration))
                     btn.innerText = 'Fight!'
