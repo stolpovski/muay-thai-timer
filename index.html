@@ -27,20 +27,18 @@
 
         #root {
             margin: 2em auto;
-            /*background-color: red;*/
-            max-width: 300px;
-            width: 70vw;
-            background-image: url('logo.jpg');
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: top center;
-            padding-top: 11.5em;
+            /* background-color: red; */
+            width: 14em;
+            
         }
 
         #state {
+            /* background-color: turquoise; */
             color: white;
             font-size: 14pt;
+            line-height: 14pt;
             text-transform: uppercase;
+            padding-top: .2em;
         }
 
         #countdown {
@@ -50,11 +48,20 @@
             color: white;
             /*font-weight: bold;*/
         }
+        .logo {
+            /* background-color: yellow; */
+            height: 10em;
+            background-image: url('logo.jpg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: top center;
+        }
     </style>
 </head>
 
 <body>
     <div id="root">
+        <div class="logo"></div>
         <div id="state"></div>
         <div id="countdown"></div>
         <button id="btn">Run</button>
