@@ -118,6 +118,9 @@
                     } else {
                         e.target.title = 'Final'
                         state.innerText = e.target.title
+                        reset = false
+                        btn.innerText = 'Run'
+                        countdown.innerText = makeClock(audio[0].dur)
                     }
 
                 }
