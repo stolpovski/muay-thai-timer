@@ -16,9 +16,10 @@
         }
 
         button {
-            font-size: 20pt;
+            font-size: 18pt;
+            font-weight: bold;
             background-color: tomato;
-            color: black;
+            color: rgb(80, 18, 8);
             padding: .5em 1em;
             border: none;
             border-radius: 1em;
@@ -29,6 +30,7 @@
             margin: 2em auto;
             /* background-color: red; */
             width: 14em;
+            text-align: center;
             
         }
 
@@ -165,7 +167,11 @@
                 if (reset) {
                     reset = !reset
                     cur.pause()
-                    countdown.innerText = makeClock(audio[0].dur)
+                    cur.currentTime=0
+                    cur = audio[0]
+                    cur.currentTime=0
+                    state.innerText=document.title
+                    // countdown.innerText = makeClock(10)
                     btn.innerText = 'Run'
 
 
