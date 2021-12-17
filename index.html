@@ -9,14 +9,16 @@
     <title>Muay Thai Timer</title>
     <style>
         body {
-            /*margin-top: 10em;*/
             text-align: center;
             background-color: black;
-
         }
-
+        #root {
+            margin: 2em auto;
+            width: 14em;
+            text-align: center;
+        }
         button {
-            font-size: 18pt;
+            font-size: 16pt;
             font-weight: bold;
             background-color: tomato;
             color: rgb(80, 18, 8);
@@ -25,33 +27,19 @@
             border-radius: 1em;
             text-transform: uppercase;
         }
-
-        #root {
-            margin: 2em auto;
-            /* background-color: red; */
-            width: 14em;
-            text-align: center;
-            
-        }
-
         #state {
-            /* background-color: turquoise; */
             color: white;
             font-size: 14pt;
             line-height: 14pt;
             text-transform: uppercase;
             padding-top: .2em;
         }
-
         #countdown {
-            /*background: red;*/
             padding-bottom: .2em;
             font-size: 40pt;
             color: white;
-            /*font-weight: bold;*/
         }
         .logo {
-            /* background-color: yellow; */
             height: 10em;
             background-image: url('logo.jpg');
             background-repeat: no-repeat;
@@ -113,6 +101,8 @@
                     cur.audio.title = f.title
                     state.innerText = cur.title
                     countdown.innerText = makeClock(cur.dur)
+                    btnRun.style.display = 'none'
+                    btnStop.style.display = 'inline'
                 }
 
                 a.onpause = (e) => {
@@ -165,7 +155,7 @@
       
 
             btnRun.onclick = (e) => {
-                e.target.style.display = 'none'
+                btnRun.style.display = 'none'
                 btnStop.style.display = 'inline'
                 cur.audio.play()
             }
