@@ -84,7 +84,7 @@
         let cur
 
         function makeClock(seconds) {
-            seconds = seconds < 0 ? 0 : Math.trunc(seconds)
+            seconds = seconds < 0 || isNaN(seconds) ? 0 : Math.trunc(seconds)
             let min = seconds / 60
             let sec = seconds % 60
 
@@ -121,6 +121,7 @@
 
                 a.onended = (e) => {
                     if (i < data.length - 1) {
+                        data[i + 1].audio.load()
                         data[i + 1].audio.play()
                     } else {
                         e.target.title = 'Final'
