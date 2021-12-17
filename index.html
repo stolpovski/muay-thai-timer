@@ -170,9 +170,9 @@
                 btnStop.style.display = 'none'
                 btnRun.style.display = 'inline'
                 cur.audio.pause()
-                cur.audio.currentTime=0
+                cur.audio.currentTime=cur.duration
                 cur = data[0]
-                countdown.innerText = makeClock(0)
+                // countdown.innerText = makeClock(0)
                 state.innerText = document.title
             }
 
