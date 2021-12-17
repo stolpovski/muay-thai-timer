@@ -157,6 +157,7 @@
             btnRun.onclick = (e) => {
                 btnRun.style.display = 'none'
                 btnStop.style.display = 'inline'
+                cur.audio.load()
                 cur.audio.play()
             }
 
