@@ -26,6 +26,7 @@
             border: none;
             border-radius: 1em;
             text-transform: uppercase;
+            cursor: pointer;
         }
         #state {
             color: white;
@@ -59,7 +60,6 @@
     </div>
     <script>
 
-
         const data = [
             { src: 'bell.mp3', title: 'Get ready!' },
             { src: '1.mp3', title: 'Round 1' },
@@ -67,113 +67,99 @@
             { src: '3.mp3', title: 'Round 3' },
             { src: '4.mp3', title: 'Round 4' },
             { src: '5.mp3', title: 'Round 5' },
-        ];
+        ]
 
-        let cur;
+        let cur
 
         function makeClock(seconds) {
-            seconds = seconds < 0 || isNaN(seconds) ? 0 : Math.trunc(seconds);
-            let min = seconds / 60;
-            let sec = seconds % 60;
+            seconds = seconds < 0 || isNaN(seconds) ? 0 : Math.trunc(seconds)
+            let min = seconds / 60
+            let sec = seconds % 60
 
-            return parseInt(min) + ':' + (sec < 10 ? '0' : '') + sec;
+            return parseInt(min) + ':' + (sec < 10 ? '0' : '') + sec
         }
 
         function init() {
 
-            btnStop.style.display = 'none';
-            state.innerText = document.title;
-            countdown.innerText = makeClock(0);
+            hideStopBtn()
+            state.innerText = document.title
+            countdown.innerText = makeClock(0)
             
             data.forEach((f, i) => {
-                let a = new Audio(f.src);
+                let a = new Audio(f.src)
 
                 a.onloadeddata = (e) => {
-                    f.dur = e.target.duration;
+                    f.dur = e.target.duration
                     if (i === 0) {
-                        countdown.innerText = makeClock(f.dur);
+                        countdown.innerText = makeClock(f.dur)
                     }
                 }
 
                 a.onplay = (e) => {
-                    cur = f;
-                    cur.audio.title = f.title;
-                    state.innerText = cur.title;
-                    countdown.innerText = makeClock(cur.dur);
-                    btnRun.style.display = 'none';
-                    btnStop.style.display = 'inline';
+                    cur = f
+                    cur.audio.title = f.title
+                    state.innerText = cur.title
+                    countdown.innerText = makeClock(cur.dur)
+                    hideRunBtn()
                 }
 
                 a.onpause = (e) => {
-                    btnStop.style.display = 'none';
-                    btnRun.style.display = 'inline';
+                    hideStopBtn()
                 }
 
                 a.ontimeupdate = (e) => {
-                    
-                    countdown.innerText = makeClock(f.dur - e.target.currentTime);
+                    countdown.innerText = makeClock(f.dur - e.target.currentTime)
                 }
 
                 a.onended = (e) => {
                     if (i < data.length - 1) {
-                        data[i + 1].audio.load();
-                        data[i + 1].audio.play();
+                        data[i + 1].audio.load()
+                        data[i + 1].audio.play()
                     } else {
-                        e.target.title = 'Final';
-                        state.innerText = e.target.title;
-                        btnStop.style.display = 'none';
-                        btnRun.style.display = 'inline';
-                        cur = data[0];
+                        e.target.title = 'Final'
+                        state.innerText = e.target.title
+                        hideStopBtn()
+                        cur = data[0]
                         
                     }
 
                 }
 
-                f.audio = a;
-                
+                f.audio = a
             })
 
-
-            cur = data[0];
-
-            
-
+            cur = data[0]
         }
 
+        function hideRunBtn() {
+            btnRun.style.display = 'none'
+            btnStop.style.display = 'inline'
+        }
 
+        function hideStopBtn() {
+            btnStop.style.display = 'none'
+            btnRun.style.display = 'inline'
+        }
 
         document.addEventListener('DOMContentLoaded', (e) => {
-            const state = document.getElementById('state');
-            const countdown = document.getElementById('countdown');
-            const btnRun = document.getElementById('btnRun');
-            const btnStop = document.getElementById('btnStop');
+            const state = document.getElementById('state')
+            const countdown = document.getElementById('countdown')
+            const btnRun = document.getElementById('btnRun')
+            const btnStop = document.getElementById('btnStop')
             
-            
-            init();
-
-      
+            init()
 
             btnRun.onclick = (e) => {
-                btnRun.style.display = 'none';
-                btnStop.style.display = 'inline';
-                cur.audio.load();
-                cur.audio.play();
+                hideRunBtn()
+                cur.audio.load()
+                cur.audio.play()
             }
 
             btnStop.onclick = (e) => {
-                
-                btnStop.style.display = 'none';
-                btnRun.style.display = 'inline';
-                cur.audio.pause();
-                // cur.audio.currentTime=0;
-                cur = data[0];
-                // cur.audio.currentTime=0;
-                // countdown.innerText=makeClock(0)
-                // state.innerText = cur.title;
+                hideStopBtn()
+                cur.audio.pause()
+                cur = data[0]
             }
-
-            
-   
         })
 
     </script>
