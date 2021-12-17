@@ -115,6 +115,11 @@
                     countdown.innerText = makeClock(cur.dur)
                 }
 
+                a.onpause = (e) => {
+                    btnStop.style.display = 'none';
+                    btnRun.style.display = 'inline';
+                }
+
                 a.ontimeupdate = (e) => {
                     
                     countdown.innerText = makeClock(f.dur - e.target.currentTime)
