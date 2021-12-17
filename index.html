@@ -99,7 +99,7 @@
             
             data.forEach((f, i) => {
                 let a = new Audio(f.src)
-                a.title = f.title
+                // a.title = f.title
 
                 a.onloadeddata = (e) => {
                     f.dur = e.target.duration
@@ -110,6 +110,7 @@
 
                 a.onplay = (e) => {
                     cur = f
+                    cur.audio.title = f.title
                     state.innerText = cur.title
                     countdown.innerText = makeClock(cur.dur)
                 }
